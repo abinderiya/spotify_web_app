@@ -1,47 +1,26 @@
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    {% load static %}
-  	<link href="{% static 'styles/style.css' %}" rel="stylesheet">
-  	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  	<link rel="shortcut icon" href="{% static 'images/icon.png' %}">
-    <meta charset="utf-8">
-    <meta name="author" content="Binderiya Adishaa">
-    <title>Spot outlier in your playlist</title>
-  </head>
-  <body>
-  	<header>  	
-  	  <span class="navbar-logo">
-  		<a href="https://www.spotify.com/us/", target="_blank">
-  		  <figure>
-  		    <img src="{% static 'images/spotify-logo.svg' %}" alt="My test image" alt="spotify-logo" width="170px" height="170px">
-  		  </figure>
-  		</a>
-  	  </span>
-    </header>
-    <main>
-  	  <h1></h1>
-      <p>Connect with your spotify account and choose a playlist to visualize! Or go to 
-      	<a href="https://www.spotify.com/us/" title="The homepage of spotify", target="_blank"> Spotify </a>
-      </p>
-      <div>
-      	<a href="{% url 'test' %}">
-      	  <button type="button"> <b>LOGIN WITH SPOTIFY</b></button>
-        </a>
-      </div>
-      <h2>FAQ</h2>
-      <ol>
-      	<li> It is this app cool? Yes! </li>
-      	<li> How was it built? It was built usin the <a href="https://developer.spotify.com/", target="_blank">Spotify</a> API. </li>
-      </ol>
-    </main>
-    <hr>
-    <footer>
-      <p> If you have any other questions or concerns about the app send me an 
-        <a id ='email' href="mailto:ad.binderiya@gmail.com?subject=Outliers%20in%20your%20playlist%20app">email</a>. 
-      </p>
-    </footer>
-    {% load static %}
-    <script src="{% static 'scripts/main.js' %}"></script>
-  </body>
-</html>
+{% extends "base_generic.html" %}
+
+{% block navbar-end %}
+<div class="navbar-end">
+  <div class="navbar-item">
+    <div class="buttons">
+      <a class="button is-success is-rounded" href="{% url 'login' %}">
+        <p style="font-family: Montserrat"> <strong>Login with Spotify</strong></p>
+      </a>
+      <a class="button is-success is-rounded" href="https://www.spotify.com/us/download/other/" target="_blank">
+        <p style="font-family: Montserrat"> <strong>Get Spotify</strong></p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container has-text-centered" style="font-family: Montserrat">
+    <h1 class="title">Visualize your spotify playlist</h1>
+    <p> 1. Login with your spotify account </p>
+    <p> 2. Pick a playlist to visualize</p>
+    <p> 3. Inspect tracks and remove outliers</p>
+  </div>
+</section>
+{% endblock %}

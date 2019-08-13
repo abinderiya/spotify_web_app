@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+{% block style %}
+table {
+    border-radius: 5px;
+}
+
+{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container is-fluid">
+  	<h1 style="font-family: Montserrat"> Pick a playlist: </h1>
+	<table class="table is-fullwidth" style="font-family: Montserrat">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Owner</th>
+			</tr>
+		</thead>
+		<tbody>
+		    {% for playlist in playlists %}
+			<tr>
+				<td> {{playlist.name}} </td>
+				<td> {{playlist.owner.display_name}}</td>
+			</tr>
+		    {% endfor %}
+		</tbody>
+	</table>
+  </div>
+</section>
+
+{% endblock %}

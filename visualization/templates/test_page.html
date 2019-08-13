@@ -1,67 +1,56 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html>
   <head>
-  	<link href="styles/style.css" rel="stylesheet">
-  	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  	<link rel="shortcut icon" href="images/icon.png">
     <meta charset="utf-8">
-    <meta name="author" content="Binderiya Adishaa">
-    <title>Spotify Web Playback SDK Quick Start Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello App!</title>
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link href="styles/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/helper.css">
+        <!-- <link rel="stylesheet" href="styles/debug.css"> -->
   </head>
   <body>
-  	<header>  	
-  	  <span class="navbar-logo">
-  		<a href="https://www.spotify.com/us/", target="_blank">
-  		  <figure>
-  		    <img src="images/spotify-logo.svg" alt="My test image" alt="spotify-logo" width="170px" height="170px">
-  		  </figure>
-  		</a>
-  	  </span>
-    </header>
-    <main>
-      <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
-      <h2>Open your console log: <code>View > Developer > JavaScript Console</code>
-      </h2>
-      <iframe src="https://open.spotify.com/embed/track/70We9AqHenA4jcmXmKzJnZ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
-      </iframe>
-    </main>
-    <footer>
-      <hr>
-      <p> If you have any other questions or concerns about the app send me an 
-        <a id ='email' href="mailto:ad.binderiya@gmail.com?subject=Outliers%20in%20your%20playlist%20app">email</a>. 
-      </p>
-    </footer>
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
-    <script>
-      window.onSpotifyWebPlaybackSDKReady = () => {
-      const token ='BQAqq3zJ3I1bF8kHZxy9FnsikWI9HWB3qm9u2HWtWLKDLECvsjfE4KkSJlJoyIvuE6qGTyoVucO1-UWlmS4SiiEHYm18NdJJPKvKR95u7DttbPKAL9_wcQmiFXMXgkUGAJs3o3S-qeaL6GGgGhz4qhujvrbxbejqpVhm8w';
-      const player = new Spotify.Player({
-        name: 'Web Playback SDK Quick Start Player',
-        getOAuthToken: cb => { cb(token); }
-      });
-    
-      // Error handling
-      player.addListener('initialization_error', ({ message }) => { console.error(message); });
-      player.addListener('authentication_error', ({ message }) => { console.error(message); });
-      player.addListener('account_error', ({ message }) => { console.error(message); });
-      player.addListener('playback_error', ({ message }) => { console.error(message); });
-    
-      // Playback status updates
-      player.addListener('player_state_changed', state => { console.log(state); });
-    
-      // Ready
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-      });
-    
-      // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
-    
-      // Connect to the player!
-      player.connect();
-      };
-    </script>
+    <nav class="navbar is-dark" role="navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="">
+          <img src="images/spotify-logo.svg" width="64" height="64">
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item" style="font-family: Montserrat">
+            Visualize your playlist
+          </div>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-success is-rounded">
+                <p style="font-family: Montserrat"> <strong>Login with Spotify</strong></p>
+              </a>
+              <a class="button is-success is-rounded">
+                <p style="font-family: Montserrat"> <strong>Get Spotify</strong></p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <div class="container has-text-centered">
+        <h1 class="title">Visualize your spotify playlist</h1>
+        <p> 1. Login with your spotify account </p>
+        <p> 2. Pick a playlist to visualize</p>
+        <p> 3. Inspect tracks and remove outliers</p>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        
+      </div>
+    </section>
   </body>
 </html>

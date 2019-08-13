@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'images/icon.png' %}">
+    <title>Visualize your playlist</title>
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    {% load static %}
+    <link href="{% static 'styles/style.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/helper.css">
+        <!-- <link rel="stylesheet" href="styles/debug.css"> -->
+    <style>{% block style %}{% endblock %}</style>
+  </head>
+  <body>
+    <nav class="navbar is-dark" role="navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'index' %}">
+          {% load static %}
+          <img src="{% static 'images/spotify-logo.svg' %}" width="64" height="64">
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item" style="font-family: Montserrat">
+            Visualize your playlist
+          </div>
+        </div>
+        {% block navbar-end %}{% endblock %}
+    </nav>
+    {% block content %}{% endblock %}
+  </body>
+</html>
