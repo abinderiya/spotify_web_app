@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '0(3mphp4w*os&a99@2xzzkf6$)wk1e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['nameless-refuge-51012.herokuapp.com',]
+ALLOWED_HOSTS = ['https://playlist-visualizer.herokuapp.com',]
 
 
 # Application definition
