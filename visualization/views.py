@@ -50,4 +50,6 @@ def visualize(request, id):
 	keys = features[0].keys()
 	context = {'keys': keys, 'zip_list': zip(features, artists, titles)}
 	return render(request, 'visualization/visualize.html', context=context)
+def feature_context(request):
+	return render(request, 'visualization/feature_context.html')
 
