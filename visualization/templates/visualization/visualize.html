@@ -13,12 +13,13 @@ table {
 		<table class="table is-narrow" style="font-family: Montserrat">
 			<thead>
 				<tr>
-					<th>Artist</th>
+					<th>Artist</a></th>
 					<th>Title</th>
-					<th>Danceability</th>
-					<th>Acousticness</th>
-					<th>Energy</th>
-					<th>Instrumentalness</th>
+					<th><a href="../feature-context">Danceability</th>
+					<th><a href="../feature-context">Acousticness</th>
+					<th><a href="../feature-context">Energy</th>
+					<th><a href="../feature-context">Instrumentalness</th>
+					<th><a href="../feature-context">Valence</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,6 +31,7 @@ table {
 					<td> {{feature.acousticness}}</td>
 					<td> {{feature.energy}}</td>
 					<td> {{feature.instrumentalness}}</td>
+					<td> {{feature.valence}}</td>
 			    {% endfor %}
 			</tbody>
 		</table>
