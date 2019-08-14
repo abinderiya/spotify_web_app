@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+{% block style %}
+table {
+    border-radius: 5px;
+}
+
+{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container is-fluid">
+  	<h1 style="font-family: Montserrat"> Track features</h1>
+  	<div class="table-container">
+		<table class="table is-narrow" style="font-family: Montserrat">
+			<thead>
+				<tr>
+					<th>Artist</th>
+					<th>Title</th>
+					<th>Danceability</th>
+					<th>Acousticness</th>
+					<th>Energy</th>
+					<th>Instrumentalness</th>
+					<th>Valence<th>
+				</tr>
+			</thead>
+			<tbody>
+			    {% for feature, artist, title in zip_list %}
+				<tr>
+					<td> {{artist}} </td>
+					<td> {{title}}</td>
+					<td> {{feature.danceability}}</td>
+					<td> {{feature.acousticness}}</td>
+					<td> {{feature.energy}}</td>
+					<td> {{feature.instrumentalness}}</td>
+					<td> {{feature.valence}}</td>
+			    {% endfor %}
+			</tbody>
+		</table>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

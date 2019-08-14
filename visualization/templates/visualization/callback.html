@@ -19,7 +19,7 @@ table {
 		<tbody>
 		    {% for playlist in playlists %}
 			<tr>
-				<td> {{playlist.name}} </td>
+				<td> <a href="{{playlist.id}}/visualize"> {{playlist.name}} </a></td>
 				<td> {{playlist.owner.display_name}}</td>
 			</tr>
 		    {% endfor %}
