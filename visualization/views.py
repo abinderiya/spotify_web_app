@@ -5,7 +5,7 @@ import os
 from . import spotify
 client_id = os.environ.get('CLIENT_ID')
 client_secret = os.environ.get('CLIENT_SECRET')
-redirect_url = 'http://127.0.0.1:8000/visualization/callback'
+redirect_url = 'https://nameless-refuge-51012.herokuapp.com/visualization/callback'
 scope = 'playlist-read-private user-read-private'
 
 # Create your views here.
