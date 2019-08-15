@@ -7,18 +7,19 @@
 <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
   <script type="text/javascript">
   	var x_coordinates = [];
-  	{% for x in x_projection %}
-  		x_coordinates.push('{{x}}')
-  	{% endfor %}
   	var y_coordinates = [];
-  	{% for y in y_projection %}
+  	var titles = [];
+  	{% for title, x, y in zip_list %}
+  		x_coordinates.push('{{x}}')
   		y_coordinates.push('{{y}}')
+  		titles.push('{{title}}')
   	{% endfor %}
     var trace1 = {
 	  x: x_coordinates,
 	  y: y_coordinates,
 	  mode: 'markers',
 	  type: 'scatter',
+	  text: titles,
 	  marker: { size: 12 }
 	};
 
@@ -31,7 +32,7 @@
 	  yaxis: {
 	    range: ['{{y_min}}', '{{y_max}}']
 	  },
-	  title:'Your playlist'
+	  title:'{{playlist_name}}'
 	};
 
 	Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
