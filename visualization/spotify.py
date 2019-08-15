@@ -9,7 +9,7 @@ def get_playlists(access_token):
 def get_song_features(access_token, playlist_id):
 	sp = spotipy.client.Spotify(auth=access_token)
 	user_id = sp.me()['id']
-	playlist = sp.user_playlist(user_id, playlist_id, fields=['tracks'])
+	playlist = sp.user_playlist(user_id, playlist_id)
 	num_tracks = playlist['tracks']['total']
 	num_tracks_so_far = 0
 	tracks = []
@@ -21,7 +21,7 @@ def get_song_features(access_token, playlist_id):
 		uris.append(track['track']['uri'])
 		artists.append(track['track']['artists'][0]['name'])
 		titles.append(track['track']['name'])
-	return artists, titles, get_audio_features(uris, sp)
+	return artists, titles, get_audio_features(uris, sp), playlist['name']
 def get_audio_features(tracks, sp):
 	num_tracks = len(tracks)
 	num_extracted = 0
@@ -36,10 +36,10 @@ def get_audio_features(tracks, sp):
 	return feature_dict
 
 def get_projection(access_token, playlist_id, features=['danceability', 'acousticness', 'energy', 'instrumentalness', 'valence']):
-	artists, titles, data = get_song_features(access_token, playlist_id)
+	artists, titles, data, playlist_name = get_song_features(access_token, playlist_id)
 	feature_table = []
 	for i in range(len(data)):
 		feature_table.append([data[i][k] for k in features])
 	projection = TSNE(n_components=2, init='pca').fit_transform(array(feature_table))
-	return list(projection[:,0]), list(projection[:,1])
+	return list(projection[:,0]), list(projection[:,1]), titles, artists, playlist_name
 

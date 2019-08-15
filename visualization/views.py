@@ -46,7 +46,7 @@ def visualize(request, id):
 		access_token = oauth.refresh_access_token(request.session['access_token']['refresh_token'])
 		request.session['access_token'] = access_token
 		request.session.modified = True
-	artists, titles, features = spotify.get_song_features(access_token['access_token'], id)
+	artists, titles, features, _ = spotify.get_song_features(access_token['access_token'], id)
 	keys = features[0].keys()
 	context = {'keys': keys, 'zip_list': zip(features, artists, titles)}
 	return render(request, 'visualization/visualize.html', context=context)
@@ -56,16 +56,18 @@ def feature_context(request):
 
 def plot(request, id):
 	access_token = request.session.get('access_token', False)
-	x_projection, y_projection = spotify.get_projection(access_token['access_token'], id)
+	x_projection, y_projection, titles, artists, playlist_name = spotify.get_projection(access_token['access_token'], id)
+	for i in range(len(titles)):
+	 	titles[i] = artists[i] + ": " + titles[i]
 	x_offset = abs(max(x_projection) - min(x_projection))/5
 	y_offset = abs(max(y_projection) - min(y_projection))/5
 	context = {
-	'x_projection':x_projection, 
-	'y_projection':y_projection, 
 	'x_max': max(x_projection) + x_offset,
 	'y_max': max(y_projection) + y_offset,
 	'x_min': min(x_projection) - x_offset,
 	'y_min': min(y_projection) - y_offset,
+	'zip_list': zip(titles, x_projection, y_projection),
+	'playlist_name': playlist_name,
 	}
 	return render(request, 'visualization/plot.html', context=context)
 
