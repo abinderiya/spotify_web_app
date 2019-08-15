@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% block script %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script type="text/javascript">
+  	var x_coordinates = [];
+  	{% for x in x_projection %}
+  		x_coordinates.push('{{x}}')
+  	{% endfor %}
+  	var y_coordinates = [];
+  	{% for y in y_projection %}
+  		y_coordinates.push('{{y}}')
+  	{% endfor %}
+    var trace1 = {
+	  x: x_coordinates,
+	  y: y_coordinates,
+	  mode: 'markers',
+	  type: 'scatter',
+	  marker: { size: 12 }
+	};
+
+	var data = [trace1];
+
+	var layout = { 
+	  xaxis: {
+	    range: ['{{x_min}}', '{{x_max}}'] 
+	  },
+	  yaxis: {
+	    range: ['{{y_min}}', '{{y_max}}']
+	  },
+	  title:'Your playlist'
+	};
+
+	Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
+  </script>
+{% endblock %}

@@ -4,6 +4,21 @@ table {
     border-radius: 5px;
 }
 
+a {
+	color:#1DB954;
+}
+
+{% endblock %}
+{% block navbar-end %}
+<div class="navbar-end">
+  <div class="navbar-item">
+    <div class="buttons">
+      <a class="button is-success is-rounded" href="./plot">
+        <p style="font-family: Montserrat"> <strong>Plot this playlist</strong></p>
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block content %}
 <section class="section">
