@@ -1,4 +1,6 @@
 import spotipy
+from sklearn.manifold import TSNE
+from numpy import array
 
 def get_playlists(access_token):
 	sp = spotipy.client.Spotify(auth=access_token)
@@ -32,3 +34,12 @@ def get_audio_features(tracks, sp):
 			feature_dict += sp.audio_features(tracks[num_extracted:])
 			num_extracted = num_tracks
 	return feature_dict
+
+def get_projection(access_token, playlist_id, features=['danceability', 'acousticness', 'energy', 'instrumentalness', 'valence']):
+	artists, titles, data = get_song_features(access_token, playlist_id)
+	feature_table = []
+	for i in range(len(data)):
+		feature_table.append([data[i][k] for k in features])
+	projection = TSNE(n_components=2, init='pca').fit_transform(array(feature_table))
+	return list(projection[:,0]), list(projection[:,1])
+
