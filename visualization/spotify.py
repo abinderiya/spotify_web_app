@@ -21,7 +21,13 @@ def get_song_features(access_token, playlist_id):
 		uris.append(track['track']['uri'])
 		artists.append(track['track']['artists'][0]['name'])
 		titles.append(track['track']['name'])
-	return artists, titles, get_audio_features(uris, sp), playlist['name']
+	features = get_audio_features(uris, sp)
+	none_idx = [i for i, item in enumerate(features) if item is None]
+	for i in sorted(none_idx, reverse=True):
+		del features[i]
+		del artists[i]
+		del titles[i]
+	return artists, titles, features, playlist['name']
 def get_audio_features(tracks, sp):
 	num_tracks = len(tracks)
 	num_extracted = 0
