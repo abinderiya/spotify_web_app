@@ -1,18 +1,74 @@
 {% extends "base_generic.html" %}
+{% block style %}
+.center{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.play {
+	padding-top:50px;
+}
+{% endblock %}
 {% block script %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% endblock %}
-
+{% block navbar-end %}
+<div class="navbar-end">
+  <div class="navbar-item">
+    <div class="buttons">
+      <a class="button is-success is-rounded" href="{% url 'callback' %}">
+        <p style="font-family: Montserrat"> <strong>Playlists</strong></p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
 {% block content %}
-<div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
-  <script type="text/javascript">
+<div class="section">
+  <div class="container is-fluid">
+    <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+  </div>
+  <div class="container is-fluid play">
+  	<nav class="level">
+  	  <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Selected track</p>
+          <p class="center">
+            <iframe id='selected' src="" width="300" height="80"   frameborder="0" allowtransparency="true" allow="encrypted-media">
+            </iframe>
+          </p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Most similar track</p>
+          <p> <iframe id='similar' src="" width="300" height="80"   frameborder="0" allowtransparency="true" allow="encrypted-media">
+            </iframe>
+          </p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Most dissimilar track</p>
+          <p> <iframe id='dissimilar' src="" width="300" height="80"   frameborder="0" allowtransparency="true" allow="encrypted-media">
+            </iframe>
+          </p>
+        </div>
+      </div>
+   	</nav>
+   </div>
+</div>
+<script type="text/javascript">
   	var x_coordinates = [];
   	var y_coordinates = [];
   	var titles = [];
-  	{% for title, x, y in zip_list %}
+  	var track_ids = [];
+  	{% for title, x, y, id in zip_list %}
   		x_coordinates.push('{{x}}')
   		y_coordinates.push('{{y}}')
   		titles.push('{{title}}')
+  		track_ids.push('{{id}}')
   	{% endfor %}
     var trace1 = {
 	  x: x_coordinates,
@@ -20,21 +76,75 @@
 	  mode: 'markers',
 	  type: 'scatter',
 	  text: titles,
-	  marker: { size: 12 }
+	  customdata: track_ids,
+	  marker: { size: 12 },
+	  hoverinfo: 'text',
+	  hoverlabel: {bgcolor: 'rgb(30,215,96)', font: {family: "Montserrat"}},
+	  hoveron: 'points',
+	  marker: {size: '8',},
 	};
 
 	var data = [trace1];
 
 	var layout = { 
 	  xaxis: {
-	    range: ['{{x_min}}', '{{x_max}}'] 
+	    range: ['{{x_min}}', '{{x_max}}'],
 	  },
 	  yaxis: {
 	    range: ['{{y_min}}', '{{y_max}}']
 	  },
-	  title:'{{playlist_name}}'
-	};
-
+	  title: {text:'{{playlist_name}}', font: {family: "Montserrat"}}
+	};   
 	Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
-  </script>
+	var myPlot = document.getElementById('myDiv');
+	function findPoints(x, y, id) {
+		var closest_id = 0;
+		var farthest_id = 0;
+		var closest = null;
+		var farthest = null;
+		var colors = [];
+		for (var i = 0; i < x_coordinates.length; i++) {
+			colors.push('blue')
+			var dist = Math.sqrt(Math.pow((x_coordinates[i] - x), 2) + Math.pow((y_coordinates[i] - y), 2));
+			if (closest == null && farthest == null) {
+				closest = dist;
+				farthest = dist;
+				closest_id = i;
+				farthest_id = i;
+			} else if ((closest == 0) || (closest > dist && i != id)) {
+				closest = dist;
+				closest_id = i;
+			} else if (farthest < dist) {
+				farthest = dist;
+				farthest_id = i;
+			}
+		}
+		colors[id] = 'rgba(135, 206, 250, 0.7)'
+		colors[farthest_id] = 'red'
+		colors[closest_id] = 'green'
+		return {c_id: closest_id, f_id: farthest_id, colors: colors}
+	}
+	myPlot.on('plotly_click', function(data){
+		id = data.points[0].pointNumber;
+		points = findPoints(data.points[0].x, data.points[0].y, id);
+		closest_id= points.c_id;
+		farthest_id = points.f_id;
+		colors = points.colors;
+		track_id = data.points[0].customdata;
+		document.getElementById('selected').src = 'https://open.spotify.com/embed/track/' + track_id;
+		document.getElementById('similar').src = 'https://open.spotify.com/embed/track/' + track_ids[closest_id];
+		document.getElementById('dissimilar').src = 'https://open.spotify.com/embed/track/' + track_ids[farthest_id];
+		Plotly.restyle('myDiv', 'marker.color', [colors]);
+	});
+	id = 0;
+	points = findPoints(x_coordinates[id], y_coordinates[id], id);
+	closest_id= points.c_id;
+	farthest_id = points.f_id;
+	track_id = track_ids[0];
+	colors = points.colors;
+	document.getElementById('selected').src = 'https://open.spotify.com/embed/track/' + track_id;
+	document.getElementById('similar').src = 'https://open.spotify.com/embed/track/' + track_ids[closest_id];
+	document.getElementById('dissimilar').src = 'https://open.spotify.com/embed/track/' + track_ids[farthest_id];
+	Plotly.restyle('myDiv', 'marker.color', [colors]);
+</script>
 {% endblock %}

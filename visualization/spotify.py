@@ -16,18 +16,19 @@ def get_song_features(access_token, playlist_id):
 	while num_tracks_so_far < num_tracks:
 		tracks += sp.user_playlist_tracks(user_id, playlist_id=playlist_id, offset=num_tracks_so_far)['items']
 		num_tracks_so_far += 100
-	uris, artists, titles =  [], [], []
+	ids, artists, titles =  [], [], []
 	for track in tracks:
-		uris.append(track['track']['uri'])
+		ids.append(track['track']['id'])
 		artists.append(track['track']['artists'][0]['name'])
 		titles.append(track['track']['name'])
-	features = get_audio_features(uris, sp)
+	features = get_audio_features(ids, sp)
 	none_idx = [i for i, item in enumerate(features) if item is None]
 	for i in sorted(none_idx, reverse=True):
 		del features[i]
 		del artists[i]
 		del titles[i]
-	return artists, titles, features, playlist['name']
+		del ids[i]
+	return artists, titles, features, playlist['name'], ids
 def get_audio_features(tracks, sp):
 	num_tracks = len(tracks)
 	num_extracted = 0
@@ -42,10 +43,10 @@ def get_audio_features(tracks, sp):
 	return feature_dict
 
 def get_projection(access_token, playlist_id, features=['danceability', 'acousticness', 'energy', 'instrumentalness', 'valence']):
-	artists, titles, data, playlist_name = get_song_features(access_token, playlist_id)
+	artists, titles, data, playlist_name, ids = get_song_features(access_token, playlist_id)
 	feature_table = []
 	for i in range(len(data)):
 		feature_table.append([data[i][k] for k in features])
 	projection = TSNE(n_components=2, init='pca').fit_transform(array(feature_table))
-	return list(projection[:,0]), list(projection[:,1]), titles, artists, playlist_name
+	return list(projection[:,0]), list(projection[:,1]), titles, artists, playlist_name, ids
 
