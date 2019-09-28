@@ -64,7 +64,7 @@ def plot(request, id):
 		access_token = oauth.refresh_access_token(request.session['access_token']['refresh_token'])
 		request.session['access_token'] = access_token
 		request.session.modified = True
-	x_projection, y_projection, titles, artists, playlist_name, ids = spotify.get_projection(access_token['access_token'], id)
+	x_projection, y_projection, titles, artists, playlist_name, ids, outliers = spotify.get_projection(access_token['access_token'], id)
 	for i in range(len(titles)):
 	 	titles[i] = artists[i] + ": " + titles[i]
 	x_offset = abs(max(x_projection) - min(x_projection))/5
@@ -76,6 +76,7 @@ def plot(request, id):
 	'y_min': min(y_projection) - y_offset,
 	'zip_list': zip(titles, x_projection, y_projection, ids),
 	'playlist_name': playlist_name,
+	'outliers': outliers,
 	}
 	return render(request, 'visualization/plot.html', context=context)
 

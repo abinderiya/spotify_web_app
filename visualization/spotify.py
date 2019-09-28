@@ -1,6 +1,7 @@
 import spotipy
 from sklearn.manifold import TSNE
 from numpy import array
+from sklearn.ensemble import IsolationForest
 
 def get_playlists(access_token):
 	sp = spotipy.client.Spotify(auth=access_token)
@@ -48,5 +49,10 @@ def get_projection(access_token, playlist_id, features=['danceability', 'acousti
 	for i in range(len(data)):
 		feature_table.append([data[i][k] for k in features])
 	projection = TSNE(n_components=2, init='pca').fit_transform(array(feature_table))
-	return list(projection[:,0]), list(projection[:,1]), titles, artists, playlist_name, ids
+	prediction = IsolationForest(behaviour='new', contamination=0.1, random_state=42).fit_predict(projection)
+	outlier_idx =  [i for i, item in enumerate(prediction) if item == -1]
+	outlier_artist = [artists[i] for i in outlier_idx]
+	outlier_titles = [titles[i] for i in outlier_idx]
+	outlier_ids = [ids[i] for i in outlier_idx]
+	return list(projection[:,0]), list(projection[:,1]), titles, artists, playlist_name, ids, zip(outlier_artist, outlier_titles, outlier_ids)
 

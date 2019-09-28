@@ -18,7 +18,7 @@
   <div class="navbar-item">
     <div class="buttons">
       <a class="button is-success is-rounded" href="{% url 'callback' %}">
-        <p style="font-family: Montserrat"> <strong>Playlists</strong></p>
+        <p style="font-family: Montserrat"> <strong> Go to playlists</strong></p>
       </a>
     </div>
   </div>
@@ -27,7 +27,7 @@
 {% block content %}
 <div class="section">
   <div class="container is-fluid">
-    <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id="myDiv"></div>
   </div>
   <div class="container is-fluid play">
   	<nav class="level">
@@ -58,6 +58,24 @@
       </div>
    	</nav>
    </div>
+     <h1 class='center' style="font-family: Montserrat"> Outliers </h1>
+  	   <div class="table-container center">
+	     <table class="table is-narrow" style="font-family: Montserrat">
+	  	  <thead>
+	  		<tr>
+	  		  <th>Artist</a></th>
+	  		  <th>Title</th>
+	  		</tr>
+	  	  </thead>
+	  	  <tbody>
+	  		  {% for artist, title, id in outliers %}
+	  		  <tr>
+	  			<td> {{artist}} </td>
+	  			<td> {{title}}</td>
+	  		  {% endfor %}
+	  	  </tbody>
+	  	</table>
+       </div>
 </div>
 <script type="text/javascript">
   	var x_coordinates = [];
@@ -95,7 +113,7 @@
 	  },
 	  title: {text:'{{playlist_name}}', font: {family: "Montserrat"}}
 	};   
-	Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
+	Plotly.newPlot('myDiv', data, layout, {displayModeBar: false});
 	var myPlot = document.getElementById('myDiv');
 	function findPoints(x, y, id) {
 		var closest_id = 0;
