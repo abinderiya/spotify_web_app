@@ -1,5 +1,14 @@
 {% extends "base_generic.html" %}
+{% block style %}
+.footer{
+  background-color: #ecebe8;
+}
 
+.section{
+  padding: 15% 0%;
+}
+
+{% endblock %}
 {% block navbar-end %}
 <div class="navbar-end">
   <div class="navbar-item">
@@ -23,4 +32,11 @@
     <p> 3. Inspect tracks and remove outliers</p>
   </div>
 </section>
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Playlist visualizer</strong> by Binderiya Adishaa. The source code is found <a href="https://github.com/abinderiya/spotify_web_app"> here </a>.
+    </p>
+  </div>
+</footer>
 {% endblock %}
